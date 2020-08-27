@@ -27,14 +27,11 @@ FROM #t
 IF OBJECT_ID('tempdb..#y', 'U') IS NOT NULL
 DROP TABLE #y;
 
-CREATE TABLE #y (
-    calYear int
-    )
-
+CREATE TABLE #y (calYear int)
 
 WHILE @minyear <= @maxyear
     BEGIN
-        INSERT INTO #y VALUES (@minyear)        
+        INSERT INTO #y VALUES (@minyear)
         SELECT @minyear = @minyear + 1
     END
 
@@ -46,7 +43,7 @@ SELECT
     t.PremiumPeriodBegin, 
     t.PremiumPeriodEnd, 
     t.GWP as OriginalPremium, 
-    DATEDIFF(DAY, PremiumPeriodBegin, PremiumPeriodEnd) as OriginalDuration, 
+    DATEDIFF(DAY, PremiumPeriodBegin, PremiumPeriodEnd) AS OriginalDuration, 
     CASE 
         WHEN t.PremiumPeriodBegin >= DATEFROMPARTS(y.calYear, 1, 1) 
         THEN t.PremiumPeriodBegin 
@@ -54,9 +51,9 @@ SELECT
     CASE 
         WHEN t.PremiumPeriodEnd <= DATEFROMPARTS(y.calYear, 12, 31) 
         THEN t.PremiumPeriodEnd 
-        ELSE DATEFROMPARTS(y.calYear, 12, 31) END as CalPremiumPeriodEnd, 
+        ELSE DATEFROMPARTS(y.calYear, 12, 31) END AS CalPremiumPeriodEnd, 
     0 as CalDays, 
-    0.0 as CalPremium,  
+    0.0 as CalPremium,
     y.calYear
 INTO #tt
 FROM #t t
@@ -72,6 +69,6 @@ SELECT
     CalPremiumPeriodBegin, 
     CalPremiumPeriodEnd, 
     calYear, 
-    DATEDIFF(DAY, CalPremiumPeriodBegin, CalPremiumPeriodEnd) +1 as calDays,
+    DATEDIFF(DAY, CalPremiumPeriodBegin, CalPremiumPeriodEnd) +1 AS calDays,
     OriginalPremium / (OriginalDuration + 1) * (DATEDIFF(DAY, CalPremiumPeriodBegin, CalPremiumPeriodEnd) + 1) as CalPremium
 FROM #tt
