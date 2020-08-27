@@ -32,7 +32,7 @@ CREATE TABLE #y (
     )
 
 
-WHILE @minyear  <= @maxyear
+WHILE @minyear <= @maxyear
     BEGIN
         INSERT INTO #y VALUES (@minyear)        
         SELECT @minyear = @minyear + 1
@@ -68,7 +68,7 @@ SELECT
     PremiumPeriodBegin, 
     PremiumPeriodEnd, 
     OriginalPremium, 
-    OriginalDuration , 
+    OriginalDuration, 
     CalPremiumPeriodBegin, 
     CalPremiumPeriodEnd, 
     calYear, 
