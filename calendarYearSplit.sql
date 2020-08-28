@@ -72,3 +72,7 @@ SELECT
     DATEDIFF(DAY, CalPremiumPeriodBegin, CalPremiumPeriodEnd) +1 AS calDays,
     OriginalPremium / (OriginalDuration + 1) * (DATEDIFF(DAY, CalPremiumPeriodBegin, CalPremiumPeriodEnd) + 1) as CalPremium
 FROM #tt
+
+DROP TABLE #t
+DROP TABLE #tt
+DROP TABLE #y
